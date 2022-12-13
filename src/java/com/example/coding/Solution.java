@@ -1,5 +1,8 @@
 package com.example.coding;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * 记录leetcode日常
  */
@@ -43,5 +46,24 @@ public class Solution {
         return res;
     }
 
+    /**
+     * leetcode 1832.判断句子是否为全字母句
+     * 全字母句 指包含英语字母表中每个字母至少一次的句子。
+     * 给你一个仅由小写英文字母组成的字符串 sentence ，请你判断 sentence 是否为 全字母句 。
+     * 如果是，返回 true ；否则，返回 false 。
+     */
+    public boolean checkIfPangram(String sentence) {
+        boolean[] exist = new boolean[26];
+        for (int i = 0; i < sentence.length(); i++) {
+            char c = sentence.charAt(i);
+            exist[c - 'a'] = true;
+        }
+        for (boolean x : exist) {
+            if (!x) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
