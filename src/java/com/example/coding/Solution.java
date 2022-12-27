@@ -66,4 +66,40 @@ public class Solution {
         return true;
     }
 
+    /**
+     * leetcode 1785.构成特定和需要添加的最少元素
+     */
+    public int minElements(int[] nums, int limit, int goal) {
+        long sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        long diff = Math.abs(sum - goal);
+        return (int) ((diff + limit - 1) / limit);
+    }
+
+    /**
+     * leetcode 209.长度最小的子数组
+     * 滑动窗口
+     */
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        int ans = Integer.MAX_VALUE;
+        int start = 0, end = 0;
+        int sum = 0;
+        while (end < n) {
+            sum += nums[end];
+            while (sum >= target) {
+                ans = Math.min(ans, end-start+1);
+                sum -= nums[start];
+                start++;
+            }
+            end++;
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
 }
