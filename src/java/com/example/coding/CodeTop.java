@@ -2,6 +2,7 @@ package com.example.coding;
 
 import org.junit.Test;
 
+import java.io.IOError;
 import java.util.*;
 
 /**
@@ -306,6 +307,60 @@ public class CodeTop {
             backtrack(n, output, res, first + 1);
             // 撤销操作
             Collections.swap(output, first, i);
+        }
+    }
+
+    /**
+     * leetcode 199. 二叉树的右视图
+     * @param root
+     * @return
+     */
+    List<Integer> res = new ArrayList<>();
+    public List<Integer> rightSideView(TreeNode root) {
+        dfs(root, 0);
+        return res;
+    }
+    private void dfs(TreeNode root, int depth) {
+        if (root == null) {
+            return;
+        }
+        if (depth == res.size()) {
+            res.add(root.val);
+        }
+        depth++;
+        dfs(root.right, depth);
+        dfs(root.left, depth);
+    }
+
+    /**
+     * leetcode 31. 下一个排列
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+        int i = nums.length - 2;
+        while (i >= 0 && nums[i] >= nums[i+1]) {
+            i--;
+        }
+        if (i >= 0) {
+            int j = nums.length - 1;
+            while (j >= 0 && nums[i] >= nums[j]) {
+                j--;
+            }
+            swap(nums, i, j);
+        }
+        reverse(nums, i+1);
+    }
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    private void reverse(int[] nums, int start) {
+        int left = start, right = nums.length - 1;
+        while (left < right) {
+            swap(nums, left, right);
+            left++;
+            right--;
         }
     }
 
