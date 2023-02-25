@@ -513,4 +513,49 @@ public class CodeTop {
         return merged.toArray(new int[merged.size()][]);
     }
 
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode former = head, latter = head;
+        for (int i = 0; i < k; i++) {
+            former = former.next;
+        }
+        while (former != null) {
+            former = former.next;
+            latter = latter.next;
+        }
+        return latter;
+    }
+
+    /**
+     * 22. 括号生成
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        backtrack(ans, new StringBuilder(), 0, 0, n);
+        return ans;
+    }
+    public void backtrack(List<String> ans, StringBuilder cur, int open, int close, int max) {
+        if (cur.length() == max * 2) {
+            ans.add(cur.toString());
+            return;
+        }
+        if (open < max) {
+            cur.append('(');
+            backtrack(ans, cur, open + 1, close, max);
+            cur.deleteCharAt(cur.length() - 1);
+        }
+        if (close < open) {
+            cur.append(')');
+            backtrack(ans, cur, open, close + 1, max);
+            cur.deleteCharAt(cur.length() - 1);
+        }
+    }
+
 }
