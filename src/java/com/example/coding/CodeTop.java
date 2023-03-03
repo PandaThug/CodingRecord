@@ -18,6 +18,10 @@ public class CodeTop {
             val = x;
             next = null;
         }
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 
     static class TreeNode {
@@ -650,6 +654,89 @@ public class CodeTop {
             p = nex;
         }
         return new ListNode[]{tail, head};
+    }
+
+    /**
+     * 19. 删除链表的倒数第 N 个结点
+     * @param head
+     * @param n
+     * @return
+     */
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode first = dummy;
+        ListNode second = head;
+        for (int i = 0; i < n; i++) {
+            first = first.next;
+        }
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+        ListNode ans = dummy.next;
+        return ans;
+    }
+
+    /**
+     * 70. 爬楼梯
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
+    }
+
+    /**
+     * 93. 复原 IP 地址
+     * @param s
+     * @return
+     */
+    static final int SEG_COUNT = 4;
+    List<String> ans = new ArrayList<>();
+    int[] segments = new int[SEG_COUNT];
+    public List<String> restoreIpAddresses(String s) {
+        segments = new int[SEG_COUNT];
+        dfs(s,0,0);
+        return ans;
+    }
+    private void dfs(String s, int segId, int segStart) {
+        if (segId == SEG_COUNT) {
+            if (segStart == s.length()) {
+                StringBuilder ipAddr = new StringBuilder();
+                for (int i = 0; i < SEG_COUNT; i++) {
+                    ipAddr.append(segments[i]);
+                    if (i != SEG_COUNT - 1) {
+                        ipAddr.append('.');
+                    }
+                }
+                ans.add(ipAddr.toString());
+            }
+            return;
+        }
+        if (segStart == s.length()) {
+            return;
+        }
+        if (s.charAt(segStart) == '0') {
+            segments[segId] = 0;
+            dfs(s, segId + 1, segStart + 1);
+        }
+        int addr = 0;
+        for (int segEnd = segStart; segEnd < s.length(); ++segEnd) {
+            addr = addr * 10 + (s.charAt(segEnd) - '0');
+            if (addr > 0 && addr <= 0xFF) {
+                segments[segId] = addr;
+                dfs(s, segId + 1, segEnd + 1);
+            } else {
+                break;
+            }
+        }
     }
 
 }
