@@ -739,4 +739,34 @@ public class CodeTop {
         }
     }
 
+    /**
+     * 151. 反转字符串中的单词
+     * @param s
+     * @return
+     */
+    public String reverseWords(String s) {
+        List<String> wordList = Arrays.asList(s.trim().split("\\s+"));
+        Collections.reverse(wordList);
+        return String.join(" ", wordList);
+    }
+
+    /**
+     * 78. 子集
+     */
+    List<Integer> t = new ArrayList<>();
+    List<List<Integer>> ans1 = new ArrayList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        int n = nums.length;
+        for (int mask = 0; mask < (1 << n); mask++) {
+            t.clear();
+            for (int i = 0; i < n; i++) {
+                if ((mask & (1 << i)) != 0) {
+                    t.add(nums[i]);
+                }
+            }
+            ans1.add(new ArrayList<>(t));
+        }
+        return ans1;
+    }
+
 }
