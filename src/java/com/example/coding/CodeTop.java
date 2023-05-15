@@ -837,4 +837,81 @@ public class CodeTop {
         return p.val == q.val && check(p.left, q.right) && check(p.right, q.left);
     }
 
+    /**
+     * 113. 路径总和 II
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    List<List<Integer>> ret = new LinkedList<>();
+    Deque<Integer> path = new LinkedList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        dfs1(root, targetSum);
+        return ret;
+    }
+    private void dfs1(TreeNode root, int targetSum) {
+        if (root == null) {
+            return;
+        }
+        path.offerLast(root.val);
+        targetSum -= root.val;
+        if (root.left == null && root.right == null && targetSum == 0) {
+            ret.add(new LinkedList<>(path));
+        }
+        dfs1(root.left, targetSum);
+        dfs1(root.right, targetSum);
+        path.pollLast();
+    }
+
+    /**
+     * 64. 最小路径和
+     * @param grid
+     * @return
+     */
+    public int minPathSum(int[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                } else if (i == 0) {
+                    grid[i][j] = grid[i][j-1] + grid[i][j];
+                } else if (j == 0) {
+                    grid[i][j] = grid[i-1][j] + grid[i][j];
+                } else {
+                    grid[i][j] = Math.min(grid[i-1][j], grid[i][j-1]) + grid[i][j];
+                }
+            }
+        }
+        return grid[grid.length-1][grid[0].length-1];
+    }
+
+    /**
+     * 112. 路径总和
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if (root == null) return false;
+        if (root.left == null && root.right == null) return targetSum == root.val;
+        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+    }
+
+    /**
+     * 169. 多数元素
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        Integer candidate = null;
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            count += (num == candidate) ? 1 : -1;
+        }
+        return candidate;
+    }
+
 }
