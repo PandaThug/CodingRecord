@@ -130,4 +130,71 @@ public class Solution {
         return dummy.next;
     }
 
+    /**
+     * 7. 整数反转
+     * 给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
+     * 如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。
+     * 假设环境不允许存储 64 位整数（有符号或无符号）。
+     * @param x
+     * @return
+     */
+    public int reverse(int x) {
+        int res = 0;
+        while (x != 0) {
+            if (res < Integer.MIN_VALUE / 10 || res > Integer.MAX_VALUE / 10) {
+                return 0;
+            }
+            /*
+             要在没有辅助栈或数组的帮助下「弹出」和「推入」数字，我们可以使用如下数学方法：
+             弹出 x 的末尾数字 digit：
+             digit = x % 10
+             x /= 10
+             将数字 digit 推入 rev 末尾：
+             rev = rev * 10 + digit
+             */
+            int tmp = x % 10;
+            x /= 10;
+            res = res * 10 + tmp;
+        }
+        return res;
+    }
+
+    /**
+     * 28. 找出字符串中第一个匹配项的下标
+     * 给你两个字符串 haystack 和 needle ，
+     * 请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。
+     * 如果 needle 不是 haystack 的一部分，则返回 -1 。
+     * @param haystack
+     * @param needle
+     * @return
+     */
+    public int strStr(String haystack, String needle) {
+        int n = haystack.length(), m = needle.length();
+        if (m == 0) {
+            return 0;
+        }
+        int[] pi = new int[m];
+        for (int i = 1, j = 0; i < m; i++) {
+            while (j > 0 && needle.charAt(i) != needle.charAt(j)) {
+                j = pi[j - 1];
+            }
+            if (needle.charAt(i) == needle.charAt(j)) {
+                j++;
+            }
+            pi[i] = j;
+        }
+        for (int i = 0, j = 0; i < n; i++) {
+            while (j > 0 && haystack.charAt(i) != needle.charAt(j)) {
+                j = pi[j - 1];
+            }
+            if (haystack.charAt(i) == needle.charAt(j)) {
+                j++;
+            }
+            if (j == m) {
+                return i - m + 1;
+            }
+        }
+        return -1;
+    }
+
 }

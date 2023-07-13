@@ -3,6 +3,7 @@ package com.example.coding;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MyTest {
@@ -15,7 +16,9 @@ public class MyTest {
 
     @Test
     public void test1() {
-
+        String test = "Baidu";
+        Arrays.sort(test.toCharArray());
+        System.out.println(test);
     }
 
 }
